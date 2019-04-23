@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: devops
+  namespace: default
+  labels:
+    k8s-app: devops
+spec:
+  selector:
+    matchLabels:
+      name: devops
+  template:
+    metadata:
+      labels:
+        name: devops
+    spec:
+      containers:
+      - name: devops
+        image: vivisidea/devops:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+      terminationGracePeriodSeconds: 1
