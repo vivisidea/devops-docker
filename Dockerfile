@@ -23,6 +23,7 @@ RUN apk --update --no-cache add \
     busybox-extras \
     nginx \
     iperf \
+    bash \
     nano
 
 
