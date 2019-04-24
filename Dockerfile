@@ -22,6 +22,7 @@ RUN apk --update --no-cache add \
     bind-tools \
     busybox-extras \
     nginx \
+    iperf \
     nano
 
 
