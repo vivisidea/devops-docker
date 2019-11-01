@@ -24,20 +24,21 @@ RUN apk --update --no-cache add \
     nginx \
     iperf \
     bash \
-    nano
-
+    nano \
+    && ln -s /usr/bin/vi /usr/bin/view \
+    && ln -s /usr/bin/vi /usr/bin/vim \
+    && mkdir -p /var/run/nginx \
+    && sed 's/worker_processes auto;/worker_processes 2;/' -i /etc/nginx/nginx.conf
 
 COPY help.md /devops/
+COPY nginx/default.conf /etc/nginx/conf.d/
+COPY nginx/index.html /var/www/
 
 #
 # https://stackoverflow.com/a/35770783
 #
 # This will keep your container alive until it is told to stop. Using trap and wait will make your container react immediately to a stop request. Without trap/wait stopping will take a few seconds.
 #
-CMD exec /bin/sh -c "trap : TERM INT; (while true; do sleep 1000; done) & wait"
+#CMD exec /bin/sh -c "trap : TERM INT; (while true; do sleep 1000; done) & wait"
 
-
-
-
-
-
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
