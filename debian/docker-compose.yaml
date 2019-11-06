@@ -6,18 +6,30 @@ services:
     networks:
       ssh-dev:
         ipv4_address: 172.26.0.10
+    extra_hosts:
+      - "debian_ssh-dev0:172.26.0.10"
+      - "debian_ssh-dev1:172.26.0.11"
+      - "debian_ssh-dev2:172.26.0.12"
   ssh-dev1:
     image: ssh-dev:latest
     hostname: debian_ssh-dev1
     networks:
       ssh-dev:
         ipv4_address: 172.26.0.11
+    extra_hosts:
+      - "debian_ssh-dev0:172.26.0.10"
+      - "debian_ssh-dev1:172.26.0.11"
+      - "debian_ssh-dev2:172.26.0.12"
   ssh-dev2:
     image: ssh-dev:latest
     hostname: debian_ssh-dev2
     networks:
       ssh-dev:
         ipv4_address: 172.26.0.12
+    extra_hosts:
+      - "debian_ssh-dev0:172.26.0.10"
+      - "debian_ssh-dev1:172.26.0.11"
+      - "debian_ssh-dev2:172.26.0.12"
 networks:
   ssh-dev:
     driver: bridge
