@@ -3,6 +3,9 @@ services:
   ssh-dev0:
     image: ssh-dev:latest
     hostname: debian_ssh-dev0
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     networks:
       ssh-dev:
         ipv4_address: 172.26.0.10
@@ -13,6 +16,9 @@ services:
   ssh-dev1:
     image: ssh-dev:latest
     hostname: debian_ssh-dev1
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     networks:
       ssh-dev:
         ipv4_address: 172.26.0.11
@@ -23,6 +29,9 @@ services:
   ssh-dev2:
     image: ssh-dev:latest
     hostname: debian_ssh-dev2
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     networks:
       ssh-dev:
         ipv4_address: 172.26.0.12
