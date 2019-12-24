@@ -30,6 +30,7 @@ RUN apk --update --no-cache add \
     && mkdir -p /var/run/nginx \
     && sed 's/worker_processes auto;/worker_processes 2;/' -i /etc/nginx/nginx.conf
 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 COPY help.md /devops/
 COPY nginx/default.conf /etc/nginx/conf.d/
 COPY nginx/index.html /var/www/
