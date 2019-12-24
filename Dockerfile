@@ -17,6 +17,7 @@ WORKDIR /devops
 RUN apk --update --no-cache add \
     net-tools \
     iputils \
+    apache2-utils \
     nmap nmap-scripts nmap-ncat \
     curl tcpdump \
     bind-tools \
