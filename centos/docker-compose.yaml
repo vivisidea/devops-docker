@@ -1,0 +1,64 @@
+version: "3"
+services:
+  ssh-dev0:
+    image: vivisidea/centos7-systemd:latest
+    hostname: centos0
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      ssh-dev:
+        ipv4_address: 172.27.0.20
+    extra_hosts:
+      - "centos0:172.27.0.20"
+      - "centos1:172.27.0.21"
+      - "centos2:172.27.0.22"
+      - "centos3:172.27.0.23"
+  ssh-dev1:
+    image: vivisidea/centos7-systemd:latest
+    hostname: centos1
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      ssh-dev:
+        ipv4_address: 172.27.0.21
+    extra_hosts:
+      - "centos0:172.27.0.20"
+      - "centos1:172.27.0.21"
+      - "centos2:172.27.0.22"
+      - "centos3:172.27.0.23"
+  ssh-dev2:
+    image: vivisidea/centos7-systemd:latest
+    hostname: centos2
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      ssh-dev:
+        ipv4_address: 172.27.0.22
+    extra_hosts:
+      - "centos0:172.27.0.20"
+      - "centos1:172.27.0.21"
+      - "centos2:172.27.0.22"
+      - "centos3:172.27.0.23"
+  ssh-dev3:
+    image: vivisidea/centos7-systemd:latest
+    hostname: centos3
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      ssh-dev:
+        ipv4_address: 172.27.0.23
+    extra_hosts:
+      - "centos0:172.27.0.20"
+      - "centos1:172.27.0.21"
+      - "centos2:172.27.0.22"
+      - "centos3:172.27.0.23"
+networks:
+  ssh-dev:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.27.0.0/16
