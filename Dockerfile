@@ -14,7 +14,8 @@ WORKDIR /devops
 # iputils
 # https://github.com/iputils/iputils/
 # arping clockdiff ninfod ping rarpd rdisc tftpd tracepath traceroute6
-RUN apk --update --no-cache add \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk --update --no-cache add \
     net-tools \
     iputils \
     apache2-utils \
@@ -31,10 +32,13 @@ RUN apk --update --no-cache add \
     && mkdir -p /var/run/nginx \
     && sed 's/worker_processes auto;/worker_processes 2;/' -i /etc/nginx/nginx.conf
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 COPY help.md /devops/
 COPY nginx/default.conf /etc/nginx/conf.d/
 COPY nginx/index.html /var/www/
+
+COPY docker-entrypoint.sh /devops/
+RUN chmod +x /devops/docker-entrypoint.sh
 
 #
 # https://stackoverflow.com/a/35770783
@@ -43,4 +47,4 @@ COPY nginx/index.html /var/www/
 #
 #CMD exec /bin/sh -c "trap : TERM INT; (while true; do sleep 1000; done) & wait"
 
-ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
+ENTRYPOINT [ "/devops/docker-entrypoint.sh" ]
