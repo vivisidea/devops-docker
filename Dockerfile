@@ -26,6 +26,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     nginx \
     iperf \
     bash \
+    coreutils \
     nano \
     && ln -s /usr/bin/vi /usr/bin/view \
     && ln -s /usr/bin/vi /usr/bin/vim \
