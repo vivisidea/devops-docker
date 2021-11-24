@@ -1,41 +1,36 @@
-FROM alpine:3.9
+FROM debian:buster
 
 LABEL name="devops@vivi"
 LABEL version="0.1"
-LABEL description="collection of dev tools"
+LABEL description="devops tools for k8s"
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /devops
 
-# net-tools
-# https://sourceforge.net/projects/net-tools/
-#
-# arp, hostname, ifconfig, netstat, rarp, route, plipconfig, slattach, mii-tool and iptunnel and ipmaddr.
-#
-# iputils
-# https://github.com/iputils/iputils/
-# arping clockdiff ninfod ping rarpd rdisc tftpd tracepath traceroute6
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
-    && apk --update --no-cache add \
-    net-tools \
-    iputils \
-    apache2-utils \
-    nmap nmap-scripts nmap-ncat \
-    curl tcpdump \
-    bind-tools \
-    busybox-extras \
-    nginx \
-    iperf \
-    bash \
-    coreutils \
-    nano \
-    && ln -s /usr/bin/vi /usr/bin/view \
-    && ln -s /usr/bin/vi /usr/bin/vim \
-    && mkdir -p /var/run/nginx \
-    && sed 's/worker_processes auto;/worker_processes 2;/' -i /etc/nginx/nginx.conf
+RUN sed -i 's/\(deb.debian.org\|security.debian.org\)/mirrors.163.com/' /etc/apt/sources.list \
+    && apt update \
+    && apt install -y wget curl telnet \
+        less \
+        mtr-tiny \
+        procps \
+        net-tools \
+        netcat \
+        nmap \
+        tcpdump \
+        dnsutils \
+        nginx \
+        iperf \
+        coreutils \
+        nano \
+    && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && rm -rf /var/lib/apt/lists/*
 
 
 COPY help.md /devops/
-COPY nginx/default.conf /etc/nginx/conf.d/
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/default.conf /etc/nginx/sites-enabled/default
 COPY nginx/index.html /var/www/
 
 COPY docker-entrypoint.sh /devops/
